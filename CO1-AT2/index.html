@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSA43 Assessment Tool 2 – Data Interpretation</title>
+  <style>
+    :root { --navy: #12355b; --blue: #1e6ba8; --ink: #17212b; --muted: #596675; --paper: #fff; --bg: #eef3f8; --line: #d5dee8; --code: #102437; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+    header { color: white; background: linear-gradient(120deg, var(--navy), var(--blue)); padding: 3.5rem 1.5rem 4.5rem; text-align: center; }
+    header p { margin: .35rem 0; }
+    h1 { margin: 0 0 .5rem; font-size: clamp(1.65rem, 4vw, 2.45rem); }
+    .course { font-weight: 700; letter-spacing: .03em; }
+    main { width: min(100% - 2rem, 980px); margin: -2.4rem auto 3rem; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 30px rgba(20, 52, 83, .10); padding: clamp(1.25rem, 4vw, 2.5rem); margin-bottom: 1.25rem; }
+    .student { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; }
+    .field { border-bottom: 1px solid #7d8996; min-height: 2.2rem; color: var(--muted); }
+    h2 { color: var(--navy); margin: 0 0 1rem; font-size: 1.4rem; border-bottom: 2px solid #b9d5eb; padding-bottom: .55rem; }
+    h3 { color: var(--blue); font-size: 1rem; margin: 1.15rem 0 .3rem; }
+    p { margin: .35rem 0 .8rem; }
+    .given { background: #eef7fc; border-left: 4px solid var(--blue); padding: .75rem 1rem; border-radius: 0 6px 6px 0; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; margin: .6rem 0; padding: 1rem; color: #eaf4fc; background: var(--code); border-radius: 7px; font: .9rem/1.55 Consolas, "Courier New", monospace; }
+    table { width: 100%; margin: .8rem 0; border-collapse: collapse; font-size: .94rem; }
+    th, td { padding: .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: white; background: var(--navy); }
+    tr:nth-child(even) { background: #f6f9fc; }
+    ul { padding-left: 1.25rem; margin: .35rem 0 .7rem; }
+    footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 0 1rem 2rem; }
+    @media print { body { background: white; font-size: 11pt; } header { padding: 1rem; background: white; color: black; } main { width: auto; margin: 0; } .card { box-shadow: none; border: 0; padding: 1rem 0; break-inside: avoid; } h2 { color: black; } th { background: #ddd; color: black; } }
+    @media (max-width: 600px) { .student { grid-template-columns: 1fr; } th, td { padding: .5rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="course">SIMATS ENGINEERING</p>
+    <h1>CO1-AT2 - Data Interpretation</h1>
+    <p>Internet Programming</p>
+</header>
+
+  <main>
+    <section class="card student" aria-label="Student details">
+      <div class="field">Student Name: Dasari. Navya Sree</div>
+      <div class="field">Register Number: 192372366</div>
+    </section>
+
+    <section class="card">
+      <h2>1. HTTP Response Analysis</h2>
+      <p class="given"><strong>Given response:</strong> HTTP/1.1 200 OK, Date: Mon, 01 Apr 2026 10:00:00 GMT, Content-Type: text/html, Content-Length: -150, Connection: keep-alive</p>
+      <h3>Incorrect or invalid fields</h3>
+      <p>The displayed fields have been run together; actual HTTP headers must be separated by CRLF line breaks. The invalid field is <code>Content-Length: -150</code>.</p>
+      <h3>Content-Length issue and impact</h3>
+      <p><code>Content-Length</code> must be a non-negative decimal number giving the exact number of bytes in the message body. A negative value is invalid. The browser cannot reliably identify the end of the body, so it may reject the response or be unable to reuse the keep-alive connection safely.</p>
+      <h3>Status-code correctness</h3>
+      <p><code>200 OK</code> is the correct status for a successfully processed request that returns an HTML representation. However, the malformed header makes the response itself invalid.</p>
+      <h3>Corrected response</h3>
+      <pre>HTTP/1.1 200 OK
+Date: Wed, 01 Apr 2026 10:00:00 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 150
+Connection: keep-alive</pre>
+      <p>The date has also been corrected: 1 April 2026 is a Wednesday. The length must equal the real response-body size; otherwise use a valid transfer-framing method such as chunked encoding.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. DOM Structure Analysis</h2>
+      <pre>&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;&lt;div&gt;&lt;p&gt;Hello World&lt;/div&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+      <h3>Missing or improperly closed element</h3>
+      <p>The opening <code>&lt;p&gt;</code> tag has no closing <code>&lt;/p&gt;</code> tag.</p>
+      <h3>Browser interpretation and rendering impact</h3>
+      <p>HTML parsers recover from this error by implicitly closing the paragraph before the closing <code>&lt;/div&gt;</code>. It will normally render as a paragraph inside the div. In larger documents, implicit closing can create unexpected DOM structures and affect CSS, JavaScript, spacing, and accessibility.</p>
+      <h3>Valid corrected DOM</h3>
+      <pre>&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;p&gt;Hello World&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+    </section>
+
+    <section class="card">
+      <h2>3. GET vs POST in a Login System</h2>
+      <table>
+        <thead><tr><th>Aspect</th><th>GET</th><th>POST</th></tr></thead>
+        <tbody>
+          <tr><td>Transmission</td><td>Appends parameters to the URL query string.</td><td>Places form data in the HTTP request body.</td></tr>
+          <tr><td>Visibility</td><td>Can appear in history, logs, bookmarks, referrer headers, and shared links.</td><td>Not displayed in the URL, but still needs HTTPS for protection in transit.</td></tr>
+          <tr><td>Login suitability</td><td>Not suitable.</td><td>Appropriate for submitting credentials.</td></tr>
+        </tbody>
+      </table>
+      <h3>Analysis</h3>
+      <p>POST is more suitable because it does not expose credentials in the URL and login establishes authentication state. “In the request body” is not the same as encrypted; HTTPS is mandatory.</p>
+      <h3>Security risks of GET</h3>
+      <p>A password in the query string can be retained by browser history, server and proxy logs, analytics tools, bookmarks, screenshots, and <code>Referer</code> headers. This can expose credentials to unauthorized people or systems.</p>
+      <h3>Secure login practices</h3>
+      <ul>
+        <li>Use POST over HTTPS; never send credentials in a URL.</li>
+        <li>Hash passwords with Argon2id or bcrypt and a unique salt; never store plain-text passwords.</li>
+        <li>Use Secure, HttpOnly, SameSite cookies and regenerate the session ID after login.</li>
+        <li>Validate input server-side, rate-limit failed attempts, use generic error messages, and never log passwords.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>4. HTML Code Inspection</h2>
+      <h3>Errors identified</h3>
+      <p>The <code>&lt;h1&gt;</code> and <code>&lt;p&gt;</code> tags have no explicit closing tags. The <code>&lt;img&gt;</code> element is a void element, so it does not require a closing tag, but it lacks alternative text. Providing <code>alt</code> text is important for accessibility.</p>
+      <h3>Browser handling</h3>
+      <p>The browser will implicitly close the heading when it encounters the paragraph, then implicitly close the paragraph at the end of the body. It may render, but the invalid markup can cause inconsistent styling and DOM behaviour.</p>
+      <h3>Corrected code</h3>
+      <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Sample&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome&lt;/h1&gt;
+  &lt;p&gt;This is a paragraph.&lt;/p&gt;
+  &lt;img src="image.jpg" alt="Description of the image" width="600" height="400"&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </section>
+
+    <section class="card">
+      <h2>5. Browser–Server Communication Flow</h2>
+      <table>
+        <thead><tr><th>Step</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td>1. URL entered</td><td>The browser parses the scheme, hostname, path, and query, then checks applicable caches and security policies.</td></tr>
+          <tr><td>2. DNS lookup</td><td>DNS translates a domain name into an IP address. A cached answer can avoid a network lookup.</td></tr>
+          <tr><td>3. HTTP request</td><td>The browser establishes a connection—typically TCP plus TLS for HTTPS—and sends a request such as GET.</td></tr>
+          <tr><td>4. Server processing</td><td>The server authorizes the request, runs application logic, possibly accesses a database, and prepares the response.</td></tr>
+          <tr><td>5. Response returned</td><td>The server sends a status line, headers, and usually an HTML body.</td></tr>
+          <tr><td>6. Browser renders</td><td>The browser builds the DOM, loads assets, applies CSS, lays out, and paints the page.</td></tr>
+        </tbody>
+      </table>
+      <h3>Possible delays</h3>
+      <p>Delays can occur during DNS resolution, connection and TLS setup, redirects, server queues, database/API calls, response transfer, and downloading or rendering CSS, JavaScript, fonts, images, and third-party resources.</p>
+      <h3>Role of DNS</h3>
+      <p>DNS is the naming layer that converts a human-readable host name into the network address needed to reach the server. If DNS is slow or unavailable, the website cannot normally be reached.</p>
+      <h3>Performance optimizations</h3>
+      <p>Use reliable DNS and caching, HTTPS with HTTP/2 or HTTP/3, keep-alive connections, a CDN, compression (Brotli/Gzip), cache-control headers, optimized and lazy-loaded images, fewer redirects, deferred non-critical scripts, and efficient server/database operations.</p>
+    </section>
+
+    <section class="card">
+      <h2>Declaration</h2>
+      <p>I Dasari. Navya Sree (192372366) certify that this submission is my original work and that I have adhered to the guidelines specified for this assessment.</p>
+      <p>Signature of the student: ____________________</p>
+    </section>
+  </main>
+  <footer>
+    Internet Programming | Assessment Tool 2
+</footer>
+</body>
+</html>
