@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSA43 — LAB</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #ffffff;
+    --line: #dcdcdc;
+    --accent: #1155cc;
+    --dim: #767676;
+  }
 
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier New', ui-monospace, monospace;
+    padding: 24px;
+  }
+
+  main {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 0 0 8px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    margin: 0 0 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  a.entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: color 0.15s ease, padding-left 0.15s ease;
+  }
+
+  a.entry:hover,
+  a.entry:focus-visible {
+    color: var(--accent);
+    padding-left: 10px;
+    outline: none;
+  }
+
+  a.entry:focus-visible {
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+
+  .code {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .arrow {
+    color: var(--dim);
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  a.entry:hover .arrow,
+  a.entry:focus-visible .arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: var(--dim);
+    text-decoration: none;
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  footer {
+    margin-top: 32px;
+    font-size: 0.7rem;
+    color: var(--dim);
+  }
+</style>
+</head>
+<body>
+  <main>
+    <a class="back" href="../index.html">&larr; Back to Course Works</a>
+    <p class="eyebrow">CSA43</p>
+    <h1>LAB</h1>
+
+    <ul>
+      <li>
+        <a class="entry" href="L5/index.html">
+          <span class="code">L5</span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </li>
+    </ul>
+
+    <footer>Click an entry to open its folder.</footer>
+  </main>
+</body>
+</html>
