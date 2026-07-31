@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroBharat - Indian Flight Reservation & Boarding Portal</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Chart.js CDN for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       MAIN NAVBAR (Header)
+       ========================================================================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-aerobharat sticky-top no-print">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand font-heading fw-bold fs-3 d-flex align-items-center gap-2" href="javascript:void(0)" onclick="navigateTo('public-home')">
+        <i class="bi bi-airplane-engines-fill text-saffron"></i> Aero<span class="highlight">Bharat</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-menu navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item">
+            <a class="nav-link font-heading px-3 fw-semibold" href="javascript:void(0)" onclick="navigateTo('public-home')">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link font-heading px-3 fw-semibold" href="javascript:void(0)" onclick="navigateTo('public-search')">Search Flights</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link font-heading px-3 fw-semibold" href="javascript:void(0)" onclick="navigateTo('public-contact')">Contact Us</a>
+          </li>
+        </ul>
+        
+        <div id="navbarAuthControls" class="d-flex align-items-center">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       PUBLIC PAGE: HOME LANDING PAGE
+       ========================================================================== -->
+  <div id="public-home" class="app-view-container">
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+      <div class="container">
+        <span class="badge bg-saffron text-light px-3 py-2 fs-6 rounded-pill mb-3 font-heading">
+          🇮🇳 India's #1 Localized Flight Reservation System
+        </span>
+        <h1 class="display-3 font-heading fw-extrabold mb-3">Fly Seamlessly Across India</h1>
+        <p class="lead max-w-2xl mx-auto text-light opacity-90 mb-4">
+          Book flight tickets across 50+ Indian destinations with instant UPI payments, 12-hour schedules, Indian Rupee fares, and tax invoices.
+        </p>
+      </div>
+    </section>
+
+    <!-- Quick Flight Search Widget -->
+    <div class="container">
+      <div class="hero-search-card">
+        <h4 class="font-heading fw-bold mb-3 text-primary"><i class="bi bi-search me-2 text-saffron"></i>Search Domestic Flights</h4>
+        <form onsubmit="event.preventDefault(); triggerSearch(false);">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label font-heading small fw-bold text-muted">FROM (ORIGIN)</label>
+              <select id="searchFrom" class="form-select form-select-lg"></select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label font-heading small fw-bold text-muted">TO (DESTINATION)</label>
+              <select id="searchTo" class="form-select form-select-lg"></select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label font-heading small fw-bold text-muted">TRAVEL DATE (DD/MM/YYYY)</label>
+              <input type="date" id="searchDate" class="form-control form-control-lg" value="2026-08-15">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label font-heading small fw-bold text-muted">CLASS</label>
+              <select id="searchClass" class="form-select form-select-lg">
+                <option value="Economy">Economy Class</option>
+                <option value="Business">Business Class</option>
+              </select>
+            </div>
+            <div class="col-12 text-end mt-4">
+              <button type="submit" class="btn btn-saffron btn-lg px-5 font-heading">
+                <i class="bi bi-airplane-fill me-2"></i> Search Flights
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Featured Indian Destinations -->
+    <section class="py-5 mt-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="text-saffron font-heading fw-bold text-uppercase">Popular Routes</span>
+          <h2 class="font-heading fw-bold">Explore Major Indian Metros</h2>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card card-custom h-100 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=800&auto=format&fit=crop" class="card-img-top" alt="Mumbai Skyline" style="height:200px; object-fit:cover;">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="font-heading fw-bold mb-0">Delhi ✈️ Mumbai</h5>
+                  <span class="badge badge-inr">From ₹4,899</span>
+                </div>
+                <p class="text-muted small">Daily 24+ Non-stop flights via IndiGo, Air India, Vistara.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card card-custom h-100 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?q=80&w=800&auto=format&fit=crop" class="card-img-top" alt="Bengaluru Tech" style="height:200px; object-fit:cover;">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="font-heading fw-bold mb-0">Bengaluru ✈️ Delhi</h5>
+                  <span class="badge badge-inr">From ₹5,499</span>
+                </div>
+                <p class="text-muted small">Frequent departures connecting Kempegowda (BLR) and IGI (DEL).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card card-custom h-100 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=800&auto=format&fit=crop" class="card-img-top" alt="Goa Beach" style="height:200px; object-fit:cover;">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="font-heading fw-bold mb-0">Mumbai ✈️ Goa</h5>
+                  <span class="badge badge-inr">From ₹3,299</span>
+                </div>
+                <p class="text-muted small">Quick 1-hour getaway flights to Dabolim and MOPA Goa airports.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Features -->
+    <section class="py-5 bg-white border-top border-bottom">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="feature-icon-box"><i class="bi bi-qr-code-scan"></i></div>
+            <h5 class="font-heading fw-bold">Instant UPI & GST Invoices</h5>
+            <p class="text-muted">Pay via GPay, PhonePe, Paytm or BHIM QR code with 100% compliant Indian tax receipts.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-icon-box"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+            <h5 class="font-heading fw-bold">Interactive Seat Selection</h5>
+            <p class="text-muted">Choose your preferred Window, Aisle, or Middle seats on our live 3-3 aircraft seat map.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-icon-box"><i class="bi bi-shield-check"></i></div>
+            <h5 class="font-heading fw-bold">Easy Cancellation & Refund</h5>
+            <p class="text-muted">Instant refund processing in Indian Rupees (₹) with zero hassle and full transparency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==========================================================================
+       PUBLIC PAGE: SEARCH FLIGHTS
+       ========================================================================== -->
+  <div id="public-search" class="app-view-container d-none py-4">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="font-heading fw-bold mb-1"><i class="bi bi-airplane me-2 text-saffron"></i>Available Flight Schedules</h2>
+          <p class="text-muted mb-0">Compare fares across IndiGo, Air India, Vistara, and Akasa Air in Indian Rupees (₹)</p>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" onclick="navigateTo('public-home')"><i class="bi bi-arrow-left me-1"></i> Back to Home</button>
+      </div>
+
+      <div id="publicSearchResultsList">
+        <!-- Generated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       PUBLIC PAGE: CONTACT US
+       ========================================================================== -->
+  <div id="public-contact" class="app-view-container d-none py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-6">
+          <span class="badge bg-saffron text-light px-3 py-2 mb-2 font-heading">24/7 Indian Customer Care</span>
+          <h2 class="font-heading fw-bold display-5 mb-3">We're Here to Help You Fly</h2>
+          <p class="text-muted mb-4">Have questions about your flight PNR, baggage allowance, or refund status? Contact our dedicated support team in India.</p>
+
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="feature-icon-box mb-0"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <h6 class="mb-0 fw-bold">Customer Helpline</h6>
+              <span class="text-muted">+91 1800 209 8899 (Toll Free)</span>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="feature-icon-box mb-0"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <h6 class="mb-0 fw-bold">Support Email</h6>
+              <span class="text-muted">support@aerobharat.in</span>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-3">
+            <div class="feature-icon-box mb-0"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <h6 class="mb-0 fw-bold">Head Office</h6>
+              <span class="text-muted">Level 4, Worldmark 1, Aerocity, New Delhi - 110037</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card card-custom p-4">
+            <h4 class="font-heading fw-bold mb-3">Send Us an Inquiry</h4>
+            <form onsubmit="event.preventDefault(); alert('Thank you! Our support team will contact you within 2 hours.');">
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Full Name</label>
+                <input type="text" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Mobile Number (+91)</label>
+                <input type="tel" class="form-control" placeholder="+91 98765 43210" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Message</label>
+                <textarea class="form-control" rows="4" placeholder="How can we assist your travel?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-saffron w-100 font-heading">Submit Inquiry</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       USER DASHBOARD
+       ========================================================================== -->
+  <div id="user-dashboard" class="app-view-container d-none">
+    <div class="dashboard-wrapper">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar-dashboard no-print">
+        <div class="p-3 border-bottom border-secondary">
+          <h6 class="text-uppercase small fw-bold text-saffron mb-0 font-heading">Passenger Portal</h6>
+        </div>
+        <ul id="userSidebarNav" class="nav flex-column my-2">
+          <li class="nav-item">
+            <a class="nav-link active" href="javascript:void(0)" onclick="switchUserTab('user-overview')">
+              <i class="bi bi-grid-fill"></i> Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchUserTab('user-flight-results')">
+              <i class="bi bi-airplane-fill"></i> Search & Book
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchUserTab('user-my-tickets')">
+              <i class="bi bi-ticket-perforated-fill"></i> My Tickets
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchUserTab('user-feedback')">
+              <i class="bi bi-chat-left-heart-fill"></i> Customer Feedback
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchUserTab('user-profile')">
+              <i class="bi bi-person-badge-fill"></i> Profile & PIN
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Dynamic Content Area -->
+      <main class="dashboard-main-content">
+        <!-- USER TAB: OVERVIEW -->
+        <div id="user-overview" class="user-tab-content">
+          <h3 class="font-heading fw-bold mb-4">Welcome to Your AeroBharat Portal</h3>
+          <div id="userOverviewContainer">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- USER TAB: FLIGHT RESULTS -->
+        <div id="user-flight-results" class="user-tab-content d-none">
+          <div class="card card-custom p-3 mb-4">
+            <h5 class="font-heading fw-bold mb-3">Quick Search</h5>
+            <div class="row g-2 align-items-end">
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">From</label>
+                <select id="dashSearchFrom" class="form-select form-select-sm"></select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">To</label>
+                <select id="dashSearchTo" class="form-select form-select-sm"></select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label small fw-bold">Date</label>
+                <input type="date" id="dashSearchDate" class="form-control form-control-sm" value="2026-08-15">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label small fw-bold">Class</label>
+                <select id="dashSearchClass" class="form-select form-select-sm">
+                  <option value="Economy">Economy</option>
+                  <option value="Business">Business</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-saffron btn-sm w-100" onclick="triggerSearch(true)">Find Flights</button>
+              </div>
+            </div>
+          </div>
+          <div id="dashSearchResultsList"></div>
+        </div>
+
+        <!-- USER TAB: INTERACTIVE SEAT SELECTION -->
+        <div id="user-seat-selection" class="user-tab-content d-none">
+          <h4 class="font-heading fw-bold text-center mb-1">Interactive Seat Availability Map</h4>
+          <p class="text-muted text-center mb-4 small">Select your preferred Window (A,F) or Aisle (C,D) seat on the aircraft</p>
+          
+          <div class="row">
+            <div class="col-lg-7 mb-4">
+              <div class="plane-fuselage">
+                <div class="plane-cockpit"></div>
+                <div id="interactiveSeatGrid" class="seat-grid">
+                  <!-- Rendered dynamically -->
+                </div>
+                <div class="seat-legend">
+                  <div class="legend-item"><div class="seat-btn available" style="width:20px;height:20px;"></div> Available</div>
+                  <div class="legend-item"><div class="seat-btn selected" style="width:20px;height:20px;"></div> Selected</div>
+                  <div class="legend-item"><div class="seat-btn booked" style="width:20px;height:20px;"></div> Booked</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div id="selectedSeatSummary"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USER TAB: PASSENGER DETAILS FORM -->
+        <div id="user-passenger-details" class="user-tab-content d-none">
+          <div class="card card-custom p-4 max-w-2xl mx-auto">
+            <h4 class="font-heading fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-vcard text-saffron me-2"></i>Passenger Information & Add-ons</h4>
+            <form onsubmit="handlePassengerFormSubmit(event)">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Passenger Full Name (as per Govt ID)</label>
+                  <input type="text" id="passName" class="form-control" value="Ananya Sharma" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small fw-bold">Gender</label>
+                  <select id="passGender" class="form-select">
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small fw-bold">Age</label>
+                  <input type="number" id="passAge" class="form-control" value="28" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Mobile Number (+91)</label>
+                  <input type="tel" id="passPhone" class="form-control" value="+91 98765 43210" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Email Address</label>
+                  <input type="email" id="passEmail" class="form-control" value="ananya.sharma@example.in" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Aadhaar / Govt ID Number</label>
+                  <input type="text" id="passAadhaar" class="form-control" value="XXXX-XXXX-4812" placeholder="12-digit Aadhaar">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">In-flight Meal Preference</label>
+                  <select id="passMeal" class="form-select">
+                    <option value="Jain Meal">Jain Meal (Strict Veg)</option>
+                    <option value="Hindu Veg Meal">Hindu Veg Meal</option>
+                    <option value="Non-Veg Meal">Non-Veg Meal</option>
+                    <option value="No Meal">No Meal Required</option>
+                  </select>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="form-label small fw-bold">Check-in Baggage</label>
+                  <select id="passBaggage" class="form-select">
+                    <option value="15 Kg">Standard 15 Kg Included (Free)</option>
+                    <option value="20 Kg">+5 Kg Extra Baggage (+₹990)</option>
+                    <option value="25 Kg">+10 Kg Extra Baggage (+₹1,800)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                <button type="button" class="btn btn-outline-secondary" onclick="switchUserTab('user-seat-selection')"><i class="bi bi-arrow-left"></i> Back to Seats</button>
+                <button type="submit" class="btn btn-saffron font-heading">Proceed to Payment Gateway <i class="bi bi-arrow-right"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- USER TAB: PAYMENT GATEWAY WITH LIVE BOOKING DETAILS COLUMN -->
+        <div id="user-payment-gateway" class="user-tab-content d-none">
+          <div class="row g-4">
+            <div class="col-lg-7">
+              <div class="card card-custom p-4">
+                <h4 class="font-heading fw-bold mb-3"><i class="bi bi-shield-lock-fill text-success me-2"></i>Indian Localized Payment Gateway</h4>
+                
+                <!-- Payment Method Selector Tabs -->
+                <div class="btn-group w-100 mb-4" role="group">
+                  <button type="button" id="btnPayTab-UPI" class="btn btn-outline-primary payment-tab-btn active" onclick="selectPaymentTab('UPI')">
+                    <i class="bi bi-qr-code me-1"></i> UPI / QR Code
+                  </button>
+                  <button type="button" id="btnPayTab-Card" class="btn btn-outline-primary payment-tab-btn" onclick="selectPaymentTab('Card')">
+                    <i class="bi bi-credit-card me-1"></i> RuPay / Cards
+                  </button>
+                  <button type="button" id="btnPayTab-Netbank" class="btn btn-outline-primary payment-tab-btn" onclick="selectPaymentTab('Netbank')">
+                    <i class="bi bi-bank me-1"></i> Netbanking
+                  </button>
+                </div>
+
+                <!-- UPI Payment Content -->
+                <div id="payTab-UPI" class="payment-tab-content text-center py-3">
+                  <p class="text-muted small">Scan using any UPI App (Google Pay, PhonePe, Paytm, BHIM)</p>
+                  <div class="p-3 border rounded-3 bg-light d-inline-block mb-3">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=aerobharat@okaxis%26pn=AeroBharat%26mc=4511" alt="UPI Scan QR" class="img-fluid">
+                  </div>
+                  <div class="d-flex justify-content-center gap-2 mb-3">
+                    <span class="badge bg-light text-dark border px-2 py-1">GPay</span>
+                    <span class="badge bg-light text-dark border px-2 py-1">PhonePe</span>
+                    <span class="badge bg-light text-dark border px-2 py-1">Paytm</span>
+                    <span class="badge bg-light text-dark border px-2 py-1">BHIM</span>
+                  </div>
+                  <div class="input-group mb-3 max-w-sm mx-auto">
+                    <input type="text" class="form-control" value="ananya@okicici" placeholder="Enter VPA / UPI ID">
+                    <button class="btn btn-saffron" type="button" onclick="processPayment('UPI (PhonePe/GPay)')">Pay Now</button>
+                  </div>
+                </div>
+
+                <!-- Card Payment Content -->
+                <div id="payTab-Card" class="payment-tab-content d-none py-2">
+                  <form onsubmit="event.preventDefault(); processPayment('RuPay / Credit Card');">
+                    <div class="mb-3">
+                      <label class="form-label small fw-bold">Card Number</label>
+                      <input type="text" class="form-control" value="4532 •••• •••• 8912" required>
+                    </div>
+                    <div class="row g-2 mb-3">
+                      <div class="col-6">
+                        <label class="form-label small fw-bold">Expiry Date</label>
+                        <input type="text" class="form-control" value="08/29" placeholder="MM/YY" required>
+                      </div>
+                      <div class="col-6">
+                        <label class="form-label small fw-bold">CVV</label>
+                        <input type="password" class="form-control" value="892" maxLength="3" required>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-saffron w-100 font-heading">Authorize & Pay</button>
+                  </form>
+                </div>
+
+                <!-- Netbanking Content -->
+                <div id="payTab-Netbank" class="payment-tab-content d-none py-3 text-center">
+                  <p class="text-muted small mb-3">Select your Indian Bank for direct Netbanking transfer</p>
+                  <div class="row g-2 mb-3">
+                    <div class="col-6"><button class="btn btn-outline-secondary w-100 text-start" onclick="processPayment('HDFC Netbanking')"><i class="bi bi-building me-2"></i> HDFC Bank</button></div>
+                    <div class="col-6"><button class="btn btn-outline-secondary w-100 text-start" onclick="processPayment('SBI Netbanking')"><i class="bi bi-building me-2"></i> State Bank of India</button></div>
+                    <div class="col-6"><button class="btn btn-outline-secondary w-100 text-start" onclick="processPayment('ICICI Netbanking')"><i class="bi bi-building me-2"></i> ICICI Bank</button></div>
+                    <div class="col-6"><button class="btn btn-outline-secondary w-100 text-start" onclick="processPayment('Axis Netbanking')"><i class="bi bi-building me-2"></i> Axis Bank</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LIVE BOOKING DETAILS COLUMN -->
+            <div class="col-lg-5">
+              <div id="liveBookingDetailsSummary">
+                <!-- Rendered dynamically via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USER TAB: TICKET & BOARDING PASS VIEW -->
+        <div id="user-ticket-view" class="user-tab-content d-none">
+          <div id="ticketDetailsContainer"></div>
+        </div>
+
+        <!-- USER TAB: MY TICKETS & HISTORY -->
+        <div id="user-my-tickets" class="user-tab-content d-none">
+          <h4 class="font-heading fw-bold mb-3"><i class="bi bi-journal-bookmark-fill text-saffron me-2"></i>My Flight Booking History</h4>
+          <div class="card card-custom p-3">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>PNR</th>
+                    <th>Passenger</th>
+                    <th>Flight</th>
+                    <th>Route</th>
+                    <th>Travel Date</th>
+                    <th>Amount (₹)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="myTicketsTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- USER TAB: FEEDBACK -->
+        <div id="user-feedback" class="user-tab-content d-none">
+          <div class="card card-custom p-4 max-w-xl mx-auto">
+            <h4 class="font-heading fw-bold mb-3"><i class="bi bi-star-fill text-warning me-2"></i>Customer Rating & Feedback</h4>
+            <form onsubmit="event.preventDefault(); alert('Thank you for your valuable rating!'); switchUserTab('user-overview');">
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Rate Your Experience</label>
+                <select class="form-select">
+                  <option value="5">⭐⭐⭐⭐⭐ Excellent (5/5)</option>
+                  <option value="4">⭐⭐⭐⭐ Very Good (4/5)</option>
+                  <option value="3">⭐⭐⭐ Satisfactory (3/5)</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Feedback Category</label>
+                <select class="form-select">
+                  <option>Booking & UPI Payment</option>
+                  <option>Seat Availability & Map</option>
+                  <option>E-Ticket & Invoicing</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Comments</label>
+                <textarea class="form-control" rows="3" placeholder="Share your suggestions..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-saffron w-100 font-heading">Submit Feedback</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- USER TAB: PROFILE -->
+        <div id="user-profile" class="user-tab-content d-none">
+          <div class="card card-custom p-4 max-w-xl mx-auto">
+            <h4 class="font-heading fw-bold mb-3"><i class="bi bi-person-fill text-primary me-2"></i>User Profile Settings</h4>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Full Name</label>
+              <input type="text" id="profileName" class="form-control" value="Ananya Sharma" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Email</label>
+              <input type="email" id="profileEmail" class="form-control" value="user@aerobharat.in" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Phone Number</label>
+              <input type="text" id="profilePhone" class="form-control" value="+91 98765 43210" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">PIN Code & City</label>
+              <input type="text" id="profileLocation" class="form-control" value="560001 - Bengaluru, Karnataka" readonly>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ADMIN DASHBOARD
+       ========================================================================== -->
+  <div id="admin-dashboard" class="app-view-container d-none">
+    <div class="dashboard-wrapper">
+      <!-- Admin Sidebar -->
+      <aside class="sidebar-dashboard no-print">
+        <div class="p-3 border-bottom border-secondary">
+          <h6 class="text-uppercase small fw-bold text-saffron mb-0 font-heading">Admin Management</h6>
+        </div>
+        <ul id="adminSidebarNav" class="nav flex-column my-2">
+          <li class="nav-item">
+            <a class="nav-link active" href="javascript:void(0)" onclick="switchAdminTab('admin-overview')">
+              <i class="bi bi-speedometer2"></i> Analytics Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab('admin-manage-flights')">
+              <i class="bi bi-airplane-engines"></i> Manage Flights
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab('admin-users')">
+              <i class="bi bi-people-fill"></i> Registered Users
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab('admin-reports')">
+              <i class="bi bi-bar-chart-fill"></i> Revenue Reports
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Admin Content -->
+      <main class="dashboard-main-content">
+        <!-- ADMIN TAB: OVERVIEW -->
+        <div id="admin-overview" class="admin-tab-content">
+          <h3 class="font-heading fw-bold mb-4">AeroBharat Administration Dashboard</h3>
+          
+          <!-- KPI Metrics Row -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-3">
+              <div class="metric-card">
+                <div class="metric-icon bg-saffron text-light"><i class="bi bi-currency-rupee"></i></div>
+                <div>
+                  <h4 class="fw-bold font-heading mb-0">₹48.5 Lakhs</h4>
+                  <span class="text-muted small">Total Revenue</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card">
+                <div class="metric-icon bg-primary text-light"><i class="bi bi-journal-check"></i></div>
+                <div>
+                  <h4 class="fw-bold font-heading mb-0">1,420</h4>
+                  <span class="text-muted small">Total Bookings</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card">
+                <div class="metric-icon bg-success text-light"><i class="bi bi-airplane-fill"></i></div>
+                <div>
+                  <h4 class="fw-bold font-heading mb-0">52 Active</h4>
+                  <span class="text-muted small">Flight Schedules</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card">
+                <div class="metric-icon bg-info text-dark"><i class="bi bi-people-fill"></i></div>
+                <div>
+                  <h4 class="fw-bold font-heading mb-0">8,950</h4>
+                  <span class="text-muted small">Registered Users</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Charts Row -->
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <div class="card card-custom p-4">
+                <h5 class="font-heading fw-bold mb-3">Monthly Revenue Progression (₹ Lakhs)</h5>
+                <canvas id="adminRevenueChart" height="140"></canvas>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card card-custom p-4">
+                <h5 class="font-heading fw-bold mb-3">Route Distribution</h5>
+                <canvas id="adminRouteChart" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN TAB: MANAGE FLIGHTS -->
+        <div id="admin-manage-flights" class="admin-tab-content d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="font-heading fw-bold mb-0">Flight Schedule & Fare Management</h4>
+            <button class="btn btn-saffron btn-sm font-heading" onclick="openAddFlightModal()">
+              <i class="bi bi-plus-circle me-1"></i> Add New Flight
+            </button>
+          </div>
+
+          <div class="card card-custom p-3">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Flight No</th>
+                    <th>Airline</th>
+                    <th>Route</th>
+                    <th>Schedule</th>
+                    <th>Base Fare</th>
+                    <th>Seats Left</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adminFlightsTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN TAB: USERS -->
+        <div id="admin-users" class="admin-tab-content d-none">
+          <h4 class="font-heading fw-bold mb-3">Registered Passengers & Admins</h4>
+          <div class="card card-custom p-3">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>City & PIN</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN TAB: REPORTS -->
+        <div id="admin-reports" class="admin-tab-content d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="font-heading fw-bold mb-0">Revenue & Booking Audit Reports</h4>
+            <button class="btn btn-outline-primary btn-sm font-heading" onclick="exportCSVReport()">
+              <i class="bi bi-download me-1"></i> Export CSV Report
+            </button>
+          </div>
+
+          <div class="card card-custom p-3">
+            <div class="table-responsive">
+              <table class="table table-striped align-middle">
+                <thead class="table-dark">
+                  <tr>
+                    <th>PNR</th>
+                    <th>Passenger</th>
+                    <th>Airline / Flight</th>
+                    <th>Booking Date</th>
+                    <th>Payment Method</th>
+                    <th>Total Amount (₹)</th>
+                  </tr>
+                </thead>
+                <tbody id="adminReportsTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DIALOGS (Login, Register, Add Flight, Payment Loader Animation)
+       ========================================================================== -->
+
+  <!-- PAYMENT LOADER & FAKE PAID ANIMATION MODAL -->
+  <div class="modal fade" id="paymentLoaderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg p-3">
+        <div class="payment-loader-card">
+          <div class="payment-spinner-icon"></div>
+          <h4 class="font-heading fw-bold text-primary mb-2">Processing Indian Payment</h4>
+          <p id="paymentLoaderStatus" class="text-muted font-heading fs-6 mb-0">Connecting to Gateway...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-gradient-navy text-white">
+          <h5 class="modal-title font-heading fw-bold"><i class="bi bi-box-arrow-in-right me-2 text-saffron"></i>Single Portal Login</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="alert alert-light border mb-4">
+            <small class="fw-bold d-block text-saffron mb-1">Demo Quick Fill Credentials:</small>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm flex-fill" onclick="quickFillLogin('user')">User Demo</button>
+              <button class="btn btn-outline-dark btn-sm flex-fill" onclick="quickFillLogin('admin')">Admin Demo</button>
+            </div>
+          </div>
+
+          <form onsubmit="handleLoginSubmit(event)">
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Email Address</label>
+              <input type="email" id="loginEmail" class="form-control" placeholder="name@aerobharat.in" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Password</label>
+              <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-saffron w-100 font-heading">Login & Proceed</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER MODAL -->
+  <div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-gradient-navy text-white">
+          <h5 class="modal-title font-heading fw-bold"><i class="bi bi-person-plus-fill me-2 text-saffron"></i>Passenger Registration</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form onsubmit="handleRegisterSubmit(event)">
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Full Name</label>
+              <input type="text" id="regName" class="form-control" placeholder="e.g. Ananya Sharma" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Email Address</label>
+              <input type="email" id="regEmail" class="form-control" placeholder="ananya@example.in" required>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Mobile (+91)</label>
+                <input type="tel" id="regPhone" class="form-control" placeholder="9876543210" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">PIN Code</label>
+                <input type="text" id="regPin" class="form-control" placeholder="560001" maxLength="6" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">City</label>
+              <input type="text" id="regCity" class="form-control" placeholder="Bengaluru" required>
+            </div>
+            <button type="submit" class="btn btn-saffron w-100 font-heading">Register Account</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD FLIGHT MODAL (ADMIN) -->
+  <div class="modal fade" id="addFlightModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-gradient-navy text-white">
+          <h5 class="modal-title font-heading fw-bold"><i class="bi bi-plus-circle me-2 text-saffron"></i>Add Flight Schedule</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form onsubmit="handleAddFlightSubmit(event)">
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Flight Number</label>
+                <input type="text" id="addFlightNo" class="form-control" value="6E-904" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">Airline</label>
+                <select id="addAirline" class="form-select">
+                  <option value="IndiGo">IndiGo</option>
+                  <option value="Air India">Air India</option>
+                  <option value="Vistara">Vistara</option>
+                  <option value="Akasa Air">Akasa Air</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Origin</label>
+                <select id="addFromCode" class="form-select">
+                  <option value="DEL">Delhi (DEL)</option>
+                  <option value="BOM">Mumbai (BOM)</option>
+                  <option value="BLR">Bengaluru (BLR)</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">Destination</label>
+                <select id="addToCode" class="form-select">
+                  <option value="BLR">Bengaluru (BLR)</option>
+                  <option value="BOM">Mumbai (BOM)</option>
+                  <option value="MAA">Chennai (MAA)</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Departure Time</label>
+                <input type="time" id="addDepTime" class="form-control" value="10:30" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">Arrival Time</label>
+                <input type="time" id="addArrTime" class="form-control" value="13:00" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Base Economy Fare (₹)</label>
+              <input type="number" id="addFare" class="form-control" value="4999" required>
+            </div>
+            <button type="submit" class="btn btn-saffron w-100 font-heading">Save Flight Schedule</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-navy text-light py-4 border-top border-secondary no-print">
+    <div class="container text-center">
+      <p class="mb-1 font-heading">© 2026 AeroBharat Reservation Portal. All Rights Reserved.</p>
+      <small class="text-muted">Fully Localized for India • Indian Rupee (₹) • GST Compliant • DD/MM/YYYY Date Standard</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Application JS Modules -->
+  <script src="js/localization.js"></script>
+  <script src="js/sampleData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
