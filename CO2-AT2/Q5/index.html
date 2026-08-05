@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamic Menu</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: sans-serif; }
+
+  nav {
+    background: #2c3e50;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .menu-toggle {
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+
+  .menu {
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    background: #34495e;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 200px;
+  }
+
+  .menu.active { display: flex; }
+
+  .menu li { position: relative; }
+
+  .menu li a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .menu li a:hover { background: #4a637d; }
+
+  .submenu {
+    list-style: none;
+    display: none;
+    background: #4a637d;
+  }
+
+  .has-submenu.open .submenu { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="menu-toggle" id="menuToggle">☰ Menu</span>
+
+  <ul class="menu" id="menu">
+    <li><a href="#">Home</a></li>
+    <li class="has-submenu">
+      <a href="#" class="submenu-trigger">Products ▾</a>
+      <ul class="submenu">
+        <li><a href="#">Electronics</a></li>
+        <li><a href="#">Clothing</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<script>
+  // (a) & (b): click toggles main menu open/close
+  const menuToggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('menu');
+
+  menuToggle.addEventListener('click', function () {
+    menu.classList.toggle('active');
+  });
+
+  // (c): click toggles submenu (works for touch + mouse)
+  document.querySelectorAll('.has-submenu').forEach(function (item) {
+    item.querySelector('.submenu-trigger').addEventListener('click', function (e) {
+      e.preventDefault();
+      item.classList.toggle('open');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && e.target !== menuToggle) {
+      menu.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>
