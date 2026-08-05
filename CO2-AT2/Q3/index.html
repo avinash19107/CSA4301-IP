@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Layout</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: sans-serif; }
+
+  .dashboard {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main";
+    height: 100vh;
+  }
+
+  .header {
+    grid-area: header;
+    background: #2c3e50;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+    background: #1a252f;
+    color: #fff;
+    padding: 1rem;
+  }
+
+  .main {
+    grid-area: main;
+    padding: 1rem;
+    background: #f4f6f8;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 768px) {
+    .dashboard {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "header"
+        "main";
+    }
+    .sidebar { display: none; }
+    .main { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+  <header class="header">Dashboard</header>
+  <aside class="sidebar">
+    <p>Home</p>
+    <p>Analytics</p>
+    <p>Settings</p>
+  </aside>
+  <main class="main">
+    <div class="card">Card 1</div>
+    <div class="card">Card 2</div>
+    <div class="card">Card 3</div>
+  </main>
+</div>
+
+</body>
+</html>
