@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile-First Blog</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, serif;
+    line-height: 1.6;
+    color: #222;
+  }
+
+  header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  article img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  article h2 {
+    margin: 0.5rem 0;
+  }
+
+  .sidebar {
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background: #eee;
+  }
+
+  /* Tablet and up: sidebar beside articles */
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .articles {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar {
+      flex: 1;
+    }
+  }
+
+  /* Desktop: wider max content width, larger text */
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    article h2 { font-size: 1.6rem; }
+    p { font-size: 1.05rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>My Blog</h1>
+</header>
+
+<div class="container">
+  <div class="articles">
+    <article>
+      <img src="https://via.placeholder.com/600x300" alt="Post image">
+      <h2>Blog Post Title</h2>
+      <p>Short excerpt of the blog post goes here to give readers a preview of the content...</p>
+    </article>
+
+    <article>
+      <img src="https://via.placeholder.com/600x300" alt="Post image">
+      <h2>Another Blog Post</h2>
+      <p>Short excerpt of the blog post goes here to give readers a preview of the content...</p>
+    </article>
+  </div>
+
+  <aside class="sidebar">
+    <h3>About</h3>
+    <p>Sidebar content, categories, or recent posts go here.</p>
+  </aside>
+</div>
+
+<footer>
+  <p>&copy; 2026 My Blog</p>
+</footer>
+
+</body>
+</html>
