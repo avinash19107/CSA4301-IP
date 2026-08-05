@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Hover Effect</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: sans-serif;
+    background: #f4f4f4;
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-card {
+    width: 220px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  .product-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .product-info { padding: 1rem; }
+
+  .product-info h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+
+  .product-info p { color: #555; }
+</style>
+</head>
+<body>
+
+<div class="product-card">
+  <img src="https://via.placeholder.com/220x180" alt="Product">
+  <div class="product-info">
+    <h3>Product Name</h3>
+    <p>$29.99</p>
+  </div>
+</div>
+
+</body>
+</html>
